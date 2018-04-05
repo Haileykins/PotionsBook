@@ -62,16 +62,16 @@ public class Pbook extends JavaPlugin {
     }
 
 
-    public boolean takeMoney(OfflinePlayer player, double amount) {
+    public void takeMoney(OfflinePlayer player, double amount) {
         if (! useEconomy)
-            return true;
+//            return true;
 
         if (econ.has(player, amount)) {
             econ.withdrawPlayer(player, amount);
-            return true;
+//            return true;
         }
 
-        return false;
+//        return false;
     }
 
     public double getBookFee() {

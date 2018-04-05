@@ -20,7 +20,7 @@ public class CommandPotionBook implements CommandExecutor {
     }
 
     // Create The Book
-    public ItemStack PotionBook() {
+    private ItemStack PotionBook() {
         ItemStack potionbook = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta bm = (BookMeta) potionbook.getItemMeta();
         bm.addPage("Night Vision:\n\n3 Minutes:\nNether Wart + Gold Carrot\n\n8 Minutes:"
