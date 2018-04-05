@@ -48,8 +48,8 @@ public class CommandPotionBook implements CommandExecutor {
         bm.addPage("Strength:\n\n3 Minutes:\nNether Wart + Blaze Powder\n\n1.5 Minutes: Add"
                 + " Glowstone Dust\n\n8 Minutes:\nAdd Redstone Dust");
         bm.addPage("Weakness:\n\n1.5 Minutes:\nFermented Spider Eye\n\n4 Minutes:\nAdd Redstone");
-        bm.setAuthor("Console");
-        bm.setTitle("Potion Brewing Guide");
+        bm.setAuthor(plugin.getBookAuthor());
+        bm.setTitle(plugin.getBookTitle());
         potionbook.setItemMeta(bm);
         return potionbook;
     }
@@ -68,13 +68,14 @@ public class CommandPotionBook implements CommandExecutor {
 
             if (nofit.isEmpty()) {
                 plugin.takeMoney(player, plugin.getBookFee());
+                sender.sendMessage(plugin.getPurchaseMessage() + plugin.getBookFee());
             } else {
-                sender.sendMessage("The book wouldn't fit in your inventory");
+                sender.sendMessage(plugin.getFullInvMessage());
                 return true;
             }
 
         } else {
-            sender.sendMessage("You can't afford a PotionBook");
+            sender.sendMessage(plugin.getNotEnoughMoneyMsg());
             return true;
         }
 

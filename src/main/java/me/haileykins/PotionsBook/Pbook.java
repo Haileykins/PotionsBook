@@ -12,6 +12,11 @@ public class Pbook extends JavaPlugin {
 
     private boolean useEconomy = true;
     private double bookFee = 100.0;
+    private String bookAuthor = "Console";
+    private String bookTitle = "Potion Brewing Guide";
+    private String purchaseMessage = "You purchased a potion book for: $";
+    private String fullInvMessage = "The book wouldn't fit in your inventory";
+    private String notEnoughMoneyMsg = "You can't afford a PotionBook";
 
     public Pbook() {
     }
@@ -24,8 +29,11 @@ public class Pbook extends JavaPlugin {
         // Look for Vault
         setupEconomy();
 
-        if (econ == null)
-            getLogger().warning("Vault Not Detected, Plugin Economy Use Disabled");
+        if (!setupEconomy() ) {
+            getLogger().severe("Disabled: Vault Not Found");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         // Register Commands
         getCommand("pbook").setExecutor(new CommandPotionBook(this));
@@ -40,18 +48,34 @@ public class Pbook extends JavaPlugin {
 
     private void SetConfig() {
         FileConfiguration config = getConfig();
-        useEconomy = config.getBoolean("UseEconomy", useEconomy);
-        bookFee = config.getDouble("BookFee", bookFee);
+        useEconomy = config.getBoolean("Use-Economy", useEconomy);
+        bookFee = config.getDouble("Book-Fee", bookFee);
+        bookAuthor = config.getString("Book-Author", bookAuthor);
+        bookTitle = config.getString("Book-Title", bookTitle);
+        purchaseMessage = config.getString("Purchase-Message", purchaseMessage);
+        fullInvMessage = config.getString("Full-Inventory-Message", fullInvMessage);
+        notEnoughMoneyMsg = config.getString("Not-Enough-Money-Message", notEnoughMoneyMsg);
         // write in case they're missing
-        config.set("UseEconomy", useEconomy);
-        config.set("BookFee", bookFee);
+        config.set("Use-Economy", useEconomy);
+        config.set("Book-Fee", bookFee);
+        config.set("Book-Author", bookAuthor);
+        config.set("Book-Title", bookTitle);
+        config.set("Purchase-Message", purchaseMessage);
+        config.set("Full-Inventory-Message", fullInvMessage);
+        config.set("Not-Enough-Money-Message", notEnoughMoneyMsg);
         saveConfig();
     }
 
-    private void setupEconomy() {
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp != null)
-            econ = rsp.getProvider();
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
 
     public boolean hasMoney(OfflinePlayer player, double amount) {
@@ -62,19 +86,39 @@ public class Pbook extends JavaPlugin {
     }
 
 
-    public void takeMoney(OfflinePlayer player, double amount) {
+    public boolean takeMoney(OfflinePlayer player, double amount) {
         if (! useEconomy)
-//            return true;
+            return true;
 
         if (econ.has(player, amount)) {
             econ.withdrawPlayer(player, amount);
-//            return true;
+            return true;
         }
 
-//        return false;
+        return false;
     }
 
     public double getBookFee() {
         return bookFee;
+    }
+
+    public String getBookAuthor() {
+        return bookAuthor;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public String getPurchaseMessage() {
+        return purchaseMessage;
+    }
+
+    public String getFullInvMessage() {
+        return fullInvMessage;
+    }
+
+    public String getNotEnoughMoneyMsg() {
+        return notEnoughMoneyMsg;
     }
 }
