@@ -75,7 +75,7 @@ public class CommandPotionBook implements CommandExecutor {
             }
 
         } else {
-            sender.sendMessage(plugin.getNotEnoughMoneyMsg());
+            sender.sendMessage(plugin.getNotEnoughMoneyMsg() + plugin.getBookFee());
             return true;
         }
 

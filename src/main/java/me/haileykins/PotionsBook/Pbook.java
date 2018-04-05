@@ -16,7 +16,7 @@ public class Pbook extends JavaPlugin {
     private String bookTitle = "Potion Brewing Guide";
     private String purchaseMessage = "You purchased a potion book for: $";
     private String fullInvMessage = "The book wouldn't fit in your inventory";
-    private String notEnoughMoneyMsg = "You can't afford a PotionBook";
+    private String notEnoughMoneyMsg = "You can't afford a PotionBook for: $";
 
     public Pbook() {
     }
