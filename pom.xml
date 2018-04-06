@@ -8,7 +8,17 @@
     <artifactId>PotionsBook</artifactId>
     <version>2.0</version>
 
-    <repositories>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+
+<repositories>
         <!-- Spigot repo -->
         <repository>
             <id>spigot-repo</id>

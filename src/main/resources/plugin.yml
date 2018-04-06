@@ -1,5 +1,5 @@
-name: PotionsBook
-version: 2.0
+name: ${project.name}
+version: ${project.version}
 author: Haileykins
 description: Minecraft Potions at Your Fingertips
 main: me.haileykins.PotionsBook.Pbook
