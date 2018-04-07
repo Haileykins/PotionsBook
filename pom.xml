@@ -17,8 +17,7 @@
         </resources>
     </build>
 
-
-<repositories>
+    <repositories>
         <!-- Spigot repo -->
         <repository>
             <id>spigot-repo</id>
