@@ -24,7 +24,7 @@ public class Pbook extends JavaPlugin {
     @Override
     public void onEnable() {
         // Load Config
-        SetConfig();
+        setConfig();
 
         // Look for Vault
         setupEconomy();
@@ -46,7 +46,7 @@ public class Pbook extends JavaPlugin {
         getLogger().info("Is Disabled");
     }
 
-    private void SetConfig() {
+    private void setConfig() {
         FileConfiguration config = getConfig();
         useEconomy = config.getBoolean("Use-Economy", useEconomy);
         bookFee = config.getDouble("Book-Fee", bookFee);
