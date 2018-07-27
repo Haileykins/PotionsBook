@@ -3,16 +3,9 @@ version: ${project.version}
 author: Haileykins
 description: Minecraft Potions at Your Fingertips
 main: me.haileykins.PotionsBook.Pbook
-softdepend: [Vault]
+depend: [Vault]
 
 commands:
     pbook:
       aliases: [bb, brewbook, potionbook]
-      description: Gives you a book of brewing recipies
-      permission: pbook.use
-      permission-message: You aren't allowed to use this command!
-
-permissions:
-    pbook.use:
-      description: Allows usage of pbook command
-      default: true
+      description: Gives You A Brewing Recipe Book
