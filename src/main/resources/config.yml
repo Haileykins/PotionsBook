@@ -1,0 +1,13 @@
+Enable-Update-Notifications: true
+Book-Fee: 100
+Book-Author: 'Console'
+Book-Title: 'Potion Brewers Guide'
+Prefix: '&5[&3P&dbook&5]'
+Purchase-Msg: '&2You have purchased a Brewing Guide for &a${price}'
+Full-Inventory-Msg: '&cYour inventory is full!'
+Not-Enough-Money-Msg: "&cYou don't have &4${price} &cto buy the book!"
+No-Permission-Msg: "&cYou don't have permission!"
+Must-Be-Player-Msg: '&cYou must be a player to do this!'
+Config-Reloaded-Msg: '&2Config Reloaded!'
+Unknown-Command: '&cUnknown Command'
+Plugin-Out-Of-Date: 'Your Version Is Out Of Date!'
