@@ -6,7 +6,7 @@
 
     <groupId>me.haileykins.PotionsBook</groupId>
     <artifactId>PotionsBook</artifactId>
-    <version>2.1</version>
+    <version>3.0</version>
 
     <build>
         <resources>
