@@ -1,72 +1,40 @@
 package me.haileykins.PotionsBook;
 
-import me.haileykins.PotionsBook.commands.CommandPotionBook;
+import me.haileykins.PotionsBook.commands.CommandPB;
+import me.haileykins.PotionsBook.listeners.UpdateListener;
+import me.haileykins.PotionsBook.utils.BookUtils;
+import me.haileykins.PotionsBook.utils.ConfigUtils;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Pbook extends JavaPlugin {
-    private Economy econ;
 
-    private boolean useEconomy = true;
-    private double bookFee = 100.0;
-    private String bookAuthor = "Console";
-    private String bookTitle = "Potion Brewing Guide";
-    private String purchaseMessage = "You purchased a potion book for: $";
-    private String fullInvMessage = "The book wouldn't fit in your inventory";
-    private String notEnoughMoneyMsg = "You can't afford a PotionBook for: $";
-
-    public Pbook() {
-    }
+    public Economy economy;
 
     @Override
     public void onEnable() {
-        // Load Config
-        setConfig();
 
-        // Look for Vault
-        setupEconomy();
+        // Create Instances
+        ConfigUtils cfgUtils = new ConfigUtils(this);
+        BookUtils bookUtils = new BookUtils(cfgUtils, this);
 
-        if (!setupEconomy() ) {
-            getLogger().severe("Disabled: Vault Not Found");
+        // Check For Vault
+        if (!checkEconomy()) {
             getServer().getPluginManager().disablePlugin(this);
-            return;
         }
 
+        // Register Listeners
+        getServer().getPluginManager().registerEvents(new UpdateListener(cfgUtils, this), this);
+
         // Register Commands
-        getCommand("pbook").setExecutor(new CommandPotionBook(this));
+        getCommand("pbook").setExecutor(new CommandPB(this, bookUtils, cfgUtils));
 
-        getLogger().info("Is Enabled");
+        // Load Config
+        cfgUtils.loadConfig();
     }
 
-    @Override
-    public void onDisable() {
-        getLogger().info("Is Disabled");
-    }
-
-    private void setConfig() {
-        FileConfiguration config = getConfig();
-        useEconomy = config.getBoolean("Use-Economy", useEconomy);
-        bookFee = config.getDouble("Book-Fee", bookFee);
-        bookAuthor = config.getString("Book-Author", bookAuthor);
-        bookTitle = config.getString("Book-Title", bookTitle);
-        purchaseMessage = config.getString("Purchase-Message", purchaseMessage);
-        fullInvMessage = config.getString("Full-Inventory-Message", fullInvMessage);
-        notEnoughMoneyMsg = config.getString("Not-Enough-Money-Message", notEnoughMoneyMsg);
-        // write in case they're missing
-        config.set("Use-Economy", useEconomy);
-        config.set("Book-Fee", bookFee);
-        config.set("Book-Author", bookAuthor);
-        config.set("Book-Title", bookTitle);
-        config.set("Purchase-Message", purchaseMessage);
-        config.set("Full-Inventory-Message", fullInvMessage);
-        config.set("Not-Enough-Money-Message", notEnoughMoneyMsg);
-        saveConfig();
-    }
-
-    private boolean setupEconomy() {
+    private boolean checkEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -74,51 +42,7 @@ public class Pbook extends JavaPlugin {
         if (rsp == null) {
             return false;
         }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-
-    public boolean hasMoney(OfflinePlayer player, double amount) {
-        if (! useEconomy)
-            return true;
-
-        return econ.has(player, amount);
-    }
-
-
-    public boolean takeMoney(OfflinePlayer player, double amount) {
-        if (! useEconomy)
-            return true;
-
-        if (econ.has(player, amount)) {
-            econ.withdrawPlayer(player, amount);
-            return true;
-        }
-
-        return false;
-    }
-
-    public double getBookFee() {
-        return bookFee;
-    }
-
-    public String getBookAuthor() {
-        return bookAuthor;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public String getPurchaseMessage() {
-        return purchaseMessage;
-    }
-
-    public String getFullInvMessage() {
-        return fullInvMessage;
-    }
-
-    public String getNotEnoughMoneyMsg() {
-        return notEnoughMoneyMsg;
+        economy = rsp.getProvider();
+        return economy != null;
     }
 }
