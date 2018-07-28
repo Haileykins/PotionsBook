@@ -1,6 +1,5 @@
 package me.haileykins.PotionsBook.listeners;
 
-import com.avaje.ebean.Update;
 import me.haileykins.PotionsBook.Pbook;
 import me.haileykins.PotionsBook.utils.ConfigUtils;
 import org.bukkit.Bukkit;
@@ -35,18 +34,20 @@ public class UpdateListener implements Listener {
 
         Player player = event.getPlayer();
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                HttpsURLConnection connection = (HttpsURLConnection) new URL(resourceURL).openConnection();
-                String version = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
+        if (player.hasPermission("pbook.admin")) {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                try {
+                    HttpsURLConnection connection = (HttpsURLConnection) new URL(resourceURL).openConnection();
+                    String version = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 
-                if (!plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                    player.sendMessage(cfgUtils.colorize(cfgUtils.prefix + " " + cfgUtils.pluginOutOfDate));
+                    if (!plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                        player.sendMessage(cfgUtils.colorize(cfgUtils.prefix + " " + cfgUtils.pluginOutOfDate));
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+            });
+        }
     }
 }
