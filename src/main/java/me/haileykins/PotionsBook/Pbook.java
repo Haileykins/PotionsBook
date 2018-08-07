@@ -5,6 +5,7 @@ import me.haileykins.PotionsBook.listeners.UpdateListener;
 import me.haileykins.PotionsBook.utils.BookUtils;
 import me.haileykins.PotionsBook.utils.ConfigUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,7 +14,10 @@ public class Pbook extends JavaPlugin {
     public Economy economy;
 
     @Override
+    @SuppressWarnings("unused")
     public void onEnable() {
+
+        Metrics metrics = new Metrics(this);
 
         // Create Instances
         ConfigUtils cfgUtils = new ConfigUtils(this);
