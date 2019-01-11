@@ -45,6 +45,13 @@ public class BookUtils {
         bm.addPage("Strength:\n\n3 Minutes:\nNether Wart + Blaze Powder\n\n1.5 Minutes: Add"
                 + " Glowstone Dust\n\n8 Minutes:\nAdd Redstone Dust");
         bm.addPage("Weakness:\n\n1.5 Minutes:\nFermented Spider Eye\n\n4 Minutes:\nAdd Redstone");
+
+        if (plugin.getServer().getVersion().contains("1.13")) {
+            bm.addPage("Turtle Master:\n\n20 Seconds:\nNether Wart + Turtle Shell\n\n40 Seconds:\nAdd Redstone" +
+                    "\n\nTurtle Master 2:\n20 Seconds\nAdd Glowstone");
+            bm.addPage("Slow Falling:\n\n1.5 Minutes:\nNether Wart + Phantom Membrane\n\n4 Minutes:\nAdd Redstone");
+        }
+
         bm.setAuthor(cfgUtils.bookAuthor);
         bm.setTitle(cfgUtils.bookTitle);
         potionbook.setItemMeta(bm);
@@ -56,6 +63,7 @@ public class BookUtils {
     }
 
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean takeMoney(Player player, double amount) {
         if (plugin.economy.has(player, amount)) {
             plugin.economy.withdrawPlayer(player, amount);
